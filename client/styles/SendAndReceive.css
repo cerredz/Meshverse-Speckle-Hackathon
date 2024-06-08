@@ -1,0 +1,17 @@
+.speckle-image-container::before {
+  position: absolute;
+  content: "";
+  inset: -16px;
+  border-radius: inherit;
+  box-shadow: inset 0 0 50px rgb(18, 157, 226);
+  opacity: 0.4;
+}
+
+.speckle-image-container::after {
+  position: absolute;
+  content: "";
+  inset: -40px;
+  border-radius: inherit;
+  box-shadow: inset 0 0 60px rgb(18, 157, 226);
+  opacity: 0.4;
+}

@@ -1,0 +1,9 @@
+.main-picture::before {
+  position: absolute;
+  top: calc(100% - 15px);
+  left: 0;
+  right: 0;
+  height: 15px;
+  background: red;
+  z-index: 10;
+}
