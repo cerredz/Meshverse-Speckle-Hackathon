@@ -10,6 +10,13 @@ import string
 import random
 import cv2 as cv
 import shutil
+import trimesh
+from specklepy.api.client import SpeckleClient
+from specklepy.transports.server import ServerTransport
+from specklepy.objects import Base
+from specklepy.objects.geometry import Mesh
+from specklepy.api import operations
+from typing import Any, Dict
 client = Client("TencentARC/InstantMesh") 
 
 # Load environment variables from .env file
@@ -84,6 +91,87 @@ def generate_mesh(img_url: str=None, url: str=None,email: str=None) -> None:
     print(email)
     print(url)
     return "Generated Images Successfully"
+
+@app.route("/add/speckle/<string:url>/<string:auth_token>/<string:stream_id>/string:<stream_name>/")
+def send(url: str, auth_token: str, stream_id: str=None, stream_name: str=None) -> None:
+    client = SpeckleClient(host="https://speckle.xyz")
+    client.authenticate_with_token(auth_token)
+    if stream_id == None:
+        stream_id = client.stream.create(name=stream_name)
+    transport = ServerTransport(client=client, stream_id=stream_id)
+
+    mesh = trimesh.load(url, file_type='obj')
+    verts = mesh.vertices
+    faces = mesh.faces
+    if hasattr(mesh.visual, 'vertex_colors') and mesh.visual.vertex_colors is not None:
+        colors = mesh.visual.vertex_colors[:, :3]
+    def rgb_to_int(red, green, blue):
+        return (red << 16) | (green << 8) | blue
+    verts = verts.flatten().tolist()
+    faces = faces.flatten().tolist()
+    faces_appended = []
+    for i in range(0, len(faces), 3):
+        faces_appended.append(0)      
+        faces_appended.extend(faces[i:i+3])
+    faces = faces_appended
+    colors = [int(rgb_to_int(c[0],c[1],c[2])) for c in colors]
+
+    mesh_base = Mesh()
+    mesh_base['vertices'] = verts
+    mesh_base['faces'] = faces
+    mesh_base['colors'] = colors
+    base = Base()
+    base['@displayValue'] = mesh_base
+
+    hash = operations.send(base=base, transports=[transport])
+    commid_id = client.commit.create(
+        stream_id=stream_id, 
+        object_id=hash, 
+        message="3d Mesh added to Speckle",
+    )
+
+@app.route("/add/speckle/<string:auth_token>/<string:stream_id>")
+def receive(auth_token: str, stream_id: str) -> Dict[str, Any]:
+    data = {}
+    client = SpeckleClient(host="https://speckle.xyz")
+    client.authenticate_with_token(auth_token)
+    transport = ServerTransport(client=client, stream_id=stream_id)
+    stream = client.stream.get(stream_id)
+
+    temp = {}
+    temp['stream_id'] = stream_id
+    temp['stream_name'] = stream.name
+    temp['stream_owner'] = stream.collaborators[0].name
+    temp['description'] = stream.description
+    data['stream_info'] = temp
+    
+    temp = {}
+    branches = client.branch.list(stream_id)
+    for branch in branches:
+        b = {}
+        b['branch_id'] = branch.id
+        b['branch_name'] = branch.name
+        b['branch_description'] = branch.description
+        b['num_commits'] = branch.commits.totalCount
+        for commit in branch.commits.items:
+            c = {}
+            c['commit_id'] = commit.id
+            c['commit_author'] = commit.authorName
+            c['commit_time'] = str(commit.createdAt)
+            b[f'commit-{commit.id}'] = c
+        temp[f'branch-{branch.name}'] = b  
+    data['branch_info'] = temp
+
+    temp = {}
+    obj_id = branches[0].commits.items[0].referencedObject
+    base = operations.receive(obj_id=obj_id, remote_transport=transport)
+    temp['object_id'] = base.id
+    mesh = base['@displayValue']
+    temp['num_vertices'] = len(mesh.vertices)
+    temp['num_faces'] = len(mesh.faces)
+    temp['num_colors'] = len(mesh.colors) 
+    data['current_object_info'] = temp
+    return json.dumps(data, indent=2)
 
 @app.route("/gen2d/<string:url>", methods=["POST"])
 def create_2d(url: str) -> int:
