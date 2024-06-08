@@ -1,15 +1,17 @@
 from flask import Flask, send_file, request, jsonify, Response, url_for
 from flask_cors import CORS
+from threading import Thread
+from sentence_transformers import SentenceTransformer, util
+from gradio_client import Client
+import shutil
+import cv2 as cv
+import gradio, gradio_client
 from dotenv import load_dotenv
 from pymongo import MongoClient
-from gradio_client import Client
-import gradio, gradio_client
 import os
 import json
 import string
 import random
-import cv2 as cv
-import shutil
 import trimesh
 from specklepy.api.client import SpeckleClient
 from specklepy.transports.server import ServerTransport
@@ -17,10 +19,12 @@ from specklepy.objects import Base
 from specklepy.objects.geometry import Mesh
 from specklepy.api import operations
 from typing import Any, Dict
+
 client = Client("TencentARC/InstantMesh") 
 
 # Load environment variables from .env file
 load_dotenv()
+
 app = Flask(__name__)
 CORS(app)
 
@@ -31,9 +35,11 @@ db = mongoClient.get_database()
 urls_collection = db["urls"]
 users_collection = db["users"]
 
+
 def generate_random_string(length=12):
     letters_and_digits = string.ascii_letters + string.digits
     return ''.join(random.choice(letters_and_digits) for i in range(length))
+
 
 def adjust_path(s: str, name: str) -> str:
     temp = ''
@@ -47,16 +53,31 @@ def adjust_path(s: str, name: str) -> str:
     return result
 
 def generate_mesh(img_url: str=None, url: str=None,email: str=None) -> None:
+    
+    temp = img_url
+    camera = False
     if img_url is None:
         cap = cv.VideoCapture(0)
+        camera = True
+        if not cap.isOpened():
+            print("Error: Could not open camera.")
+            return None
+
         while True:
             ret, frame = cap.read()
+            if not ret:
+                print("Error: Failed to capture image.")
+                break
+
             cv.imshow('Camera', frame)
             key = cv.waitKey(1)   
             if key % 256 == 32:  
-                img_url = 'captured_image.jpg'
-                cv.imwrite(img_url, frame)
-                print(f"Image saved to {img_url}")
+                img_url = generate_random_string() + '.png'
+                temp = img_url
+                relative_url = "./images/" + img_url
+                cv.imwrite(relative_url, frame)
+                img_url = relative_url
+                print(f"Image saved to {relative_url}")
             elif key % 256 == ord('q'):
                 break
         cap.release()
@@ -81,6 +102,22 @@ def generate_mesh(img_url: str=None, url: str=None,email: str=None) -> None:
             api_name="/make3d"
     )
     print("Stage 3 Complete | Generated 3D Mesh-Image")
+    
+    #adjust_path(result1, "output_segmented")
+    #adjust_path(result2, "output_mvs")
+    #adjust_path(result3[0], "output_grayscale_mesh")
+    #adjust_path(result3[1], "output_colored_mesh")
+    img_url = temp
+    shutil.move(result1, r"../client/public/Images/meshes/segmented.png")
+    shutil.move(result2, r"../client/public/Images/meshes/mvs.png")
+    shutil.move(result3[0], r"../client/public/Images/meshes/gray_mesh.obj")
+    shutil.move(result3[1], r"../client/public/Images/meshes/color_mesh.glb")
+    if camera:
+        shutil.copy(r"../client/public/Images/meshes/color_mesh.glb", r"../client/public/Images/collection/" + img_url + r".glb")
+        shutil.copy(r"../client/public/Images/meshes/gray_mesh.obj", r"../client/public/Images/collection/" + img_url + r".obj")
+    else:
+        shutil.copy(r"../client/public/Images/meshes/color_mesh.glb", r"../client/public/Images/collection/" + url + r".glb")
+        shutil.copy(r"../client/public/Images/meshes/gray_mesh.obj", r"../client/public/Images/collection/" + url + r".obj")
 
     urls_collection.insert_one({"url": url})
     user = users_collection.find_one_and_update(
@@ -90,17 +127,77 @@ def generate_mesh(img_url: str=None, url: str=None,email: str=None) -> None:
     )
     print(email)
     print(url)
-    return "Generated Images Successfully"
+    return jsonify({'img_url': img_url, 'url': url})
+    
+load_dotenv()
+app = Flask(__name__)
+CORS(app)
 
-@app.route("/add/speckle/<string:url>/<string:auth_token>/<string:stream_id>/string:<stream_name>/")
+@app.route("/")
+def home():
+    return "Successfully connected"
+
+@app.route('/upload', methods=['POST'])
+def upload_file():
+    if 'image' not in request.files:
+        return 'No file part', 400
+    file = request.files['image']
+    #print(file)
+    if file.filename == '':
+        return 'No selected file', 400
+    
+    # Generate a random string for the file name
+    random_string = generate_random_string()
+    file_extension = os.path.splitext(file.filename)[1]
+    random_filename = random_string + file_extension
+
+    # Save or process the file
+    upload_folder = os.path.join(app.root_path, 'images')
+    os.makedirs(upload_folder, exist_ok=True)
+    file_path = os.path.join(upload_folder, random_filename)
+    #print(file_path)
+    file.save(file_path)
+    if file_extension.lower() == ".obj":
+        shutil.copy(file_path, r"../client/public/Images/meshes/" + random_filename)
+    else:
+        shutil.copy(file_path, r"../client/public/Images/user/" + random_filename)
+    return jsonify({'message': 'File uploaded successfully', 'file_name': random_filename})
+
+
+@app.route("/gen2d/<string:url>/<string:email>", methods=["POST"])
+def create_2d(url: str, email: str) -> int:
+    relativeUrl = "./images/" + url.replace("-", " ")
+    #print(url)
+    code = generate_mesh(relativeUrl, url, email)
+    print("Entered Function")
+    if code == None:
+        return 1
+    return code
+
+@app.route("/genLive/<string:email>", methods=["POST"])
+def create_live(email) -> None:
+    code = generate_mesh(email=email)
+    if code == None:
+        return 1
+    return code
+
+
+@app.route("/get/<string:filename>")
+def getImage(filename: str) -> Response:
+    return send_file(f"images/{filename}")
+
+@app.route("/add/speckle/<string:url>/<string:auth_token>/<string:stream_name>", methods=["POST"])
 def send(url: str, auth_token: str, stream_id: str=None, stream_name: str=None) -> None:
+    print("auth token" + auth_token)
+    print("stream name" + stream_name)
     client = SpeckleClient(host="https://speckle.xyz")
     client.authenticate_with_token(auth_token)
     if stream_id == None:
         stream_id = client.stream.create(name=stream_name)
     transport = ServerTransport(client=client, stream_id=stream_id)
+    relativeUrl = "./images/" + url.replace("-", " ")
 
-    mesh = trimesh.load(url, file_type='obj')
+    mesh = trimesh.load(relativeUrl, file_type='obj')
     verts = mesh.vertices
     faces = mesh.faces
     if hasattr(mesh.visual, 'vertex_colors') and mesh.visual.vertex_colors is not None:
@@ -129,8 +226,9 @@ def send(url: str, auth_token: str, stream_id: str=None, stream_name: str=None) 
         object_id=hash, 
         message="3d Mesh added to Speckle",
     )
+    return jsonify({'stream_id': stream_id, 'stream_name': stream_name }), 200
 
-@app.route("/add/speckle/<string:auth_token>/<string:stream_id>")
+@app.route("/get/speckle/<string:auth_token>/<string:stream_id>", methods=["GET"])
 def receive(auth_token: str, stream_id: str) -> Dict[str, Any]:
     data = {}
     client = SpeckleClient(host="https://speckle.xyz")
@@ -144,7 +242,7 @@ def receive(auth_token: str, stream_id: str) -> Dict[str, Any]:
     temp['stream_owner'] = stream.collaborators[0].name
     temp['description'] = stream.description
     data['stream_info'] = temp
-    
+
     temp = {}
     branches = client.branch.list(stream_id)
     for branch in branches:
@@ -173,55 +271,37 @@ def receive(auth_token: str, stream_id: str) -> Dict[str, Any]:
     data['current_object_info'] = temp
     return json.dumps(data, indent=2)
 
-@app.route("/gen2d/<string:url>", methods=["POST"])
-def create_2d(url: str) -> int:
-    code = generate_mesh(url)
-    if code == None:
-        return 1
-    return code
-
-@app.route("/genLive", methods=["POST"])
-def create_live() -> None:
-    code = generate_mesh()
-    if code == None:
-        return 1
-    return code
-
 @app.route("/generated_colored_mesh/<path:url>")
 def serve_colored_image(url: str) -> Response:
-    return send_file(f"")
+    return send_file(f"meshes/color_mesh.glb")
 
 @app.route("/generated_gray_mesh/<path:url>")
 def serve_gray_image(url: str) -> Response:
-    return send_file(f"")
+    return send_file(f"meshes/segmented/gray_mesh.glb")
 
 @app.route("/generated_mvs/<path:url>")
 def serve_mvs(url: str) -> Response:
-    return send_file(f"")
+    return send_file(f"meshes/segmented/mvs.png")
 
 @app.route("/generated_segmented/<path:url>")
 def serve_segmented(url: str) -> Response:
-    return send_file(f"")
+    return send_file(f"meshes/segmented/segmented.png")
 
-# returns the 3d meshes filename
 @app.route("/get/urls", methods=["GET"])
 def get_urls():
     urls = [url_doc['url'] for url_doc in urls_collection.find({}, {'url': 1})]
     return jsonify({"urls":urls})
 
-# returns the total users signed up
 @app.route("/get/users/size", methods=["GET"])
 def get_users_size():
     total_users =  users_collection.count_documents({})
     return jsonify({'users': total_users})
 
-# returns the total 3d meshes generated
 @app.route("/get/urls/size", methods=["GET"])
 def get_urls_size():
     total_urls =  urls_collection.count_documents({})
     return jsonify({'urls': total_urls})
     
-# check if the passed in email exists in the database, if not we create a new user with the passed in email
 @app.route("/check/user", methods=["POST"])
 def check_user():
     data = request.get_json()
@@ -261,6 +341,9 @@ def get_user(username: str):
         return jsonify(user), 200
     else:
         return jsonify({"message": "could not find user with username " +  username}), 404
-    
+
+
+
+
 if __name__ == '__main__':
     app.run(port=5000, debug=True)
