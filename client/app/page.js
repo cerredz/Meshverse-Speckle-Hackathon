@@ -14,12 +14,14 @@ import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { setUser } from "./Redux/store";
 import { checkUser } from "../utils/home";
+import { useScroll, motion } from "framer-motion";
 
 export default function Home() {
   const test = useSelector((state) => state.auth.test);
   const user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
   const { data: session } = useSession();
+  const { scrollYProgress } = useScroll();
 
   useEffect(() => {
     if (session && user == null) {
@@ -38,7 +40,10 @@ export default function Home() {
         priority={true}
         className="hidden md:block"
       />
-
+      <motion.div
+        style={{ scaleX: scrollYProgress }}
+        className="progress-bar"
+      />
       {/* MAIN CONTENT */}
       <Landing />
       <Cards />
