@@ -1,15 +1,28 @@
 import Image from "next/image";
 import { cardsData } from "../data";
-
+import { useScroll, motion, useTransform } from "framer-motion";
+import { useRef } from "react";
 export default function Cards() {
+  const cardsRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: cardsRef,
+    offset: ["0 1", "1.33 1"],
+  });
+
+  const scaleProgress = useTransform(scrollYProgress, [0, 1], [0.5, 1]);
   return (
     <section
       id="cards"
+      ref={cardsRef}
       className="z-10 w-full px-[10%] flex flex-col gap-8 lg:flex-row items-center justify-between flex-wrap lg:mt-[50px]"
     >
       {cardsData.map((card, index) => (
-        <div
+        <motion.div
           key={index}
+          style={{
+            scale: scaleProgress,
+            opacity: scrollYProgress,
+          }}
           className={`flex flex-col items-center justify-between bg-[rgba(255,255,255,.05)] rounded-sm p-8 max-w-md w-[400px] h-[250px] ${
             index == 0 && "mt-[-75px] mb-[75px] lg:mt-0 lg:mb-0"
           }`}
@@ -39,7 +52,7 @@ export default function Cards() {
               {card.subtitle}
             </p>
           </div>
-        </div>
+        </motion.div>
       ))}
     </section>
   );

@@ -15,31 +15,71 @@ export default function Landing() {
     >
       {/* TEXT CONTAINER */}
       <div className="flex flex-col items-start justify-center gap-2 basis-5/12 ">
-        <div className="border border-sky-400 flex flex-row items-center justify-center text-sky-400 gap-2 text-xs rounded-3xl px-4 py-1 mb-1">
+        <motion.div
+          initial={{ y: 10, opacity: 0 }}
+          animate={{
+            y: 0,
+            opacity: 1,
+            transition: { duration: 0.4, delay: 0.1 },
+          }}
+          className="border border-sky-400 flex flex-row items-center justify-center text-sky-400 gap-2 text-xs rounded-3xl px-4 py-1 mb-1"
+        >
           <FaRobot />
           <p className="font-bold tracking-wider"> Artificial Intelligence</p>
-        </div>
-        <h1 className="text-3xl xl:text-6xl tracking-wider font-bold drop-shadow-md backdrop-blur-md">
+        </motion.div>
+        <motion.div
+          initial={{ x: -25, opacity: 0 }}
+          animate={{
+            x: 0,
+            opacity: 1,
+            transition: { duration: 0.5, delay: 0.2 },
+          }}
+          className="text-3xl xl:text-6xl tracking-wider font-bold drop-shadow-md backdrop-blur-md"
+        >
           Discover, Create & Transform Images Into{" "}
           <span className="text-blue-500 underline">3d Meshes </span>
-        </h1>
-        <p className="text-neutral-500 tracking-wider text-md font-bold w-3/4 mt-2">
+        </motion.div>
+        <motion.p
+          initial={{ x: -25, opacity: 0 }}
+          animate={{
+            x: 0,
+            opacity: 1,
+            transition: { duration: 0.55, delay: 0.25 },
+          }}
+          className="text-neutral-500 tracking-wider text-md font-bold w-3/4 mt-2"
+        >
           Utilize the power of diffusion to innovate the process of creating and
           analyzing 3d objects from scratch
-        </p>
+        </motion.p>
         {/* BULLETS */}
-        <div className="flex flex-row items-center justify-center gap-2 mt-1 ">
+        <motion.div
+          initial={{ x: -25, opacity: 0 }}
+          animate={{
+            x: 0,
+            opacity: 1,
+            transition: { duration: 0.55, delay: 0.3 },
+          }}
+          className="flex flex-row items-center justify-center gap-2 mt-1 "
+        >
           <FaCheckCircle className="fill-fuchsia-500 p-0 m-0 " />
           <p className="font-bold tracking-wider text-sm">
             Generate Results in Seconds
           </p>
-        </div>
-        <div className="flex flex-row items-center justify-center gap-2">
+        </motion.div>
+        <motion.div
+          initial={{ x: -25, opacity: 0 }}
+          animate={{
+            x: 0,
+            opacity: 1,
+            transition: { duration: 0.55, delay: 0.3 },
+          }}
+          className="flex flex-row items-center justify-center gap-2"
+        >
           <FaCheckCircle className="fill-fuchsia-500" />
           <p className="font-bold tracking-wider text-sm">
             Super Accurate 3d Meshes
           </p>
-        </div>
+        </motion.div>
 
         {/* BUTTONS */}
         <div className="flex flex-row items-center justify-center gap-3 mt-1">
@@ -47,6 +87,12 @@ export default function Landing() {
             <motion.div
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.9 }}
+              initial={{ y: 50, opacity: 0 }}
+              animate={{
+                y: 0,
+                opacity: 1,
+                transition: { duration: 0.45, delay: 0.4 },
+              }}
               className="flex flex-row items-center justify-center gap-3 text-xl px-6 py-3 rounded-xl bg-gradient-to-r from-sky-400 to-blue-700 cursor-pointer font-bold tracking-widest mt-3"
             >
               <GiStarProminences />
@@ -57,6 +103,12 @@ export default function Landing() {
             <motion.div
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.9 }}
+              initial={{ x: -10, opacity: 0 }}
+              animate={{
+                x: 0,
+                opacity: 1,
+                transition: { duration: 0.45, delay: 0.45 },
+              }}
               className="rounded-full p-3 border-2 border-neutral-300 cursor-pointer"
             >
               <FaPlay />
@@ -69,15 +121,32 @@ export default function Landing() {
       </div>
       {/* IMG CONTAINER */}
       <div className="flex flex-col items-center justify-end gap-2 basis-7/12 relative h-screen">
-        <Image
-          src="/images/metaverse.png"
-          alt="main picture icon"
-          width={500}
-          height={500}
-          quality={100}
-          className="translate-y-[-200px] translate-x-20 w-[1200px] z-0 "
-        />
-        <div className="absolute bottom-[100px] translate-x-20 left-0 w-full h-[125px] bg-[rgba(255,255,255,.025)] rounded-2xl  backdrop-blur-3xl z-10 flex flex-row items-center justify-between px-8">
+        <motion.span
+          initial={{ scale: 0, opacity: 0 }}
+          animate={{
+            scale: 1,
+            opacity: 1,
+            transition: { duration: 0.6, delay: 0.2 },
+          }}
+        >
+          <Image
+            src="/images/metaverse.png"
+            alt="main picture icon"
+            width={500}
+            height={500}
+            quality={100}
+            className="origin-center translate-y-[-200px] translate-x-20 w-[1200px] z-0 "
+          />
+        </motion.span>
+        <motion.span
+          initial={{ opacity: 0, y: 10 }}
+          animate={{
+            opacity: 1,
+            y: 0,
+            transition: { duration: 0.7, delay: 0.8 },
+          }}
+          className="absolute bottom-[100px] translate-x-20 left-0 w-full h-[125px] bg-[rgba(255,255,255,.025)] rounded-2xl  backdrop-blur-3xl z-10 flex flex-row items-center justify-between px-8"
+        >
           <div className="flex flex-col items-center justify-center">
             <h1 className="text-5xl tracking-widest font-black text-sky-500">
               Speckle
@@ -121,7 +190,7 @@ export default function Landing() {
               </button>
             </Link>
           </div>
-        </div>
+        </motion.span>
       </div>
     </section>
   );
