@@ -23,9 +23,14 @@ export default function Browse() {
             whileInView={{
               opacity: 1,
               y: 0,
-              transition: { duration: 0.4, damping: 100 },
             }}
             viewport={viewport}
+            transition={{
+              duration: 0.3,
+              stiffness: 100,
+              damping: 25,
+              delay: 0.2,
+            }}
             className="w-[200px] h-[200px] flex items-center justify-center card origin-center"
           >
             <OBJViewer fileUrl={`/images/browse1.obj`} scale={2} height={200} />
@@ -35,9 +40,14 @@ export default function Browse() {
             whileInView={{
               opacity: 1,
               y: 0,
-              transition: { duration: 0.4, damping: 100, delay: 0.075 },
             }}
             viewport={viewport}
+            transition={{
+              duration: 0.3,
+              stiffness: 100,
+              damping: 25,
+              delay: 0.25,
+            }}
             className="w-[200px] h-[200px] flex items-center justify-center card"
           >
             <OBJViewer fileUrl={`/images/browse2.obj`} scale={2} height={200} />
@@ -47,9 +57,14 @@ export default function Browse() {
             whileInView={{
               opacity: 1,
               y: 0,
-              transition: { duration: 0.4, damping: 100, delay: 0.15 },
             }}
             viewport={viewport}
+            transition={{
+              duration: 0.3,
+              stiffness: 100,
+              damping: 25,
+              delay: 0.3,
+            }}
             className="w-[200px] h-[200px] flex items-center justify-center card"
           >
             <OBJViewer fileUrl={`/images/browse3.obj`} scale={2} height={200} />
@@ -59,9 +74,14 @@ export default function Browse() {
             whileInView={{
               opacity: 1,
               y: 0,
-              transition: { duration: 0.4, damping: 100, delay: 0.225 },
             }}
             viewport={viewport}
+            transition={{
+              duration: 0.3,
+              stiffness: 100,
+              damping: 25,
+              delay: 0.35,
+            }}
             className="w-[200px] h-[200px] flex items-center justify-center card"
           >
             <OBJViewer fileUrl={`/images/browse4.obj`} scale={2} height={200} />
@@ -71,9 +91,14 @@ export default function Browse() {
             whileInView={{
               opacity: 1,
               y: 0,
-              transition: { duration: 0.4, damping: 100, delay: 0.3 },
             }}
             viewport={viewport}
+            transition={{
+              duration: 0.3,
+              stiffness: 100,
+              damping: 25,
+              delay: 0.4,
+            }}
             className="w-[200px] h-[200px] flex items-center justify-center card"
           >
             <OBJViewer fileUrl={`/images/browse5.obj`} scale={2} height={200} />
@@ -83,9 +108,14 @@ export default function Browse() {
             whileInView={{
               opacity: 1,
               y: 0,
-              transition: { duration: 0.4, damping: 100, delay: 0.375 },
             }}
             viewport={{ margin: "-150px" }}
+            transition={{
+              duration: 0.3,
+              stiffness: 100,
+              damping: 25,
+              delay: 0.45,
+            }}
             className="w-[200px] h-[200px] flex items-center justify-center card"
           >
             <OBJViewer fileUrl={`/images/browse6.obj`} scale={2} height={200} />
@@ -95,9 +125,14 @@ export default function Browse() {
             whileInView={{
               opacity: 1,
               y: 0,
-              transition: { duration: 0.4, damping: 100, delay: 0.45 },
             }}
             viewport={viewport}
+            transition={{
+              duration: 0.3,
+              stiffness: 100,
+              damping: 25,
+              delay: 0.5,
+            }}
             className="w-[200px] h-[200px] flex items-center justify-center card"
           >
             <OBJViewer fileUrl={`/images/browse7.obj`} scale={2} height={200} />
@@ -107,9 +142,14 @@ export default function Browse() {
             whileInView={{
               opacity: 1,
               y: 0,
-              transition: { duration: 0.4, damping: 100, delay: 0.525 },
             }}
             viewport={viewport}
+            transition={{
+              duration: 0.3,
+              stiffness: 100,
+              damping: 25,
+              delay: 0.55,
+            }}
             className="w-[200px] h-[200px] flex items-center justify-center card"
           >
             <OBJViewer fileUrl={`/images/browse8.obj`} scale={2} height={200} />
@@ -119,9 +159,14 @@ export default function Browse() {
             whileInView={{
               opacity: 1,
               y: 0,
-              transition: { duration: 0.4, damping: 100, delay: 0.6 },
             }}
             viewport={viewport}
+            transition={{
+              duration: 0.3,
+              stiffness: 100,
+              damping: 25,
+              delay: 0.6,
+            }}
             className="w-[200px] h-[200px] flex items-center justify-center card"
           >
             <OBJViewer fileUrl={`/images/browse9.obj`} scale={2} height={200} />
@@ -131,38 +176,53 @@ export default function Browse() {
       {/* TEXT CONTAINER */}
       <div className="flex basis-2/5 flex-col items-start justify-center">
         <motion.div
-          initial={{ x: 75, opacity: 0 }}
+          initial={{ x: 15, opacity: 0 }}
           whileInView={{
             x: 0,
             opacity: 1,
-            transition: { duration: 0.4 },
           }}
           viewport={viewport}
+          transition={{
+            duration: 0.6,
+            stiffness: 100,
+            damping: 25,
+            delay: 0.2,
+          }}
           className="border border-sky-400 flex flex-row items-center justify-center text-sky-400 gap-2 text-xs rounded-3xl px-4 py-1"
         >
           <GrGallery />
           <p>Gallary</p>
         </motion.div>
         <motion.h1
-          initial={{ x: 75, opacity: 0 }}
+          initial={{ x: 30, opacity: 0 }}
           whileInView={{
             x: 0,
             opacity: 1,
-            transition: { duration: 0.4, delay: 0.05 },
           }}
           viewport={viewport}
+          transition={{
+            duration: 0.6,
+            stiffness: 100,
+            damping: 25,
+            delay: 0.2,
+          }}
           className="text-3xl md:text-7xl relative font-bold tracking-wider drop-shadow-md browse-title"
         >
           Browse
         </motion.h1>
         <motion.p
-          initial={{ x: 75, opacity: 0 }}
+          initial={{ x: 45, opacity: 0 }}
           whileInView={{
             x: 0,
             opacity: 1,
-            transition: { duration: 0.4, delay: 0.1 },
           }}
           viewport={viewport}
+          transition={{
+            duration: 0.6,
+            stiffness: 100,
+            damping: 25,
+            delay: 0.2,
+          }}
           className="text-neutral-500 tracking-wider font-bold text-md max-w-lg mt-2"
         >
           Explore the wide array of creations where users transform ordinary 2D
@@ -171,13 +231,18 @@ export default function Browse() {
         </motion.p>
         {/* BULLETS */}
         <motion.div
-          initial={{ x: 75, opacity: 0 }}
+          initial={{ x: 55, opacity: 0 }}
           whileInView={{
             x: 0,
             opacity: 1,
-            transition: { duration: 0.4, delay: 0.15 },
           }}
           viewport={viewport}
+          transition={{
+            duration: 0.6,
+            stiffness: 100,
+            damping: 25,
+            delay: 0.2,
+          }}
           className="flex flex-row items-center justify-center gap-2 my-1 "
         >
           <FaCheckCircle className="fill-fuchsia-500 p-0 m-0 " />
@@ -186,13 +251,18 @@ export default function Browse() {
           </p>
         </motion.div>
         <motion.div
-          initial={{ x: 75, opacity: 0 }}
+          initial={{ x: 65, opacity: 0 }}
           whileInView={{
             x: 0,
             opacity: 1,
-            transition: { duration: 0.4, delay: 0.2 },
           }}
           viewport={viewport}
+          transition={{
+            duration: 0.6,
+            stiffness: 100,
+            damping: 25,
+            delay: 0.2,
+          }}
           className="flex flex-row items-center justify-center gap-2 my-1 "
         >
           <FaCheckCircle className="fill-fuchsia-500" />
@@ -205,9 +275,14 @@ export default function Browse() {
           whileInView={{
             x: 0,
             opacity: 1,
-            transition: { duration: 0.4, delay: 0.25 },
           }}
           viewport={viewport}
+          transition={{
+            duration: 0.6,
+            stiffness: 100,
+            damping: 25,
+            delay: 0.2,
+          }}
           className="flex flex-row items-center justify-center gap-2 my-1"
         >
           <FaCheckCircle className="fill-fuchsia-500" />
@@ -219,13 +294,18 @@ export default function Browse() {
           <motion.div
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.9 }}
-            initial={{ x: 75, opacity: 0 }}
+            initial={{ x: 90, opacity: 0 }}
             whileInView={{
               x: 0,
               opacity: 1,
-              transition: { duration: 0.4, delay: 0.3 },
             }}
             viewport={viewport}
+            transition={{
+              duration: 0.6,
+              stiffness: 100,
+              damping: 25,
+              delay: 0.2,
+            }}
             className="flex flex-row items-center justify-center gap-2 text-xl px-6 py-3 rounded-xl bg-gradient-to-r from-sky-500 via-blue-500 to-fuchsia-600 font-bold tracking-wider mt-2 cursor-pointer"
           >
             <BsSendArrowUp />

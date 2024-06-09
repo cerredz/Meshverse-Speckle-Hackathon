@@ -51,8 +51,14 @@ export default function Camera() {
       <div className="flex flex-col items-center justify-center gap-3">
         <motion.div
           initial={{ y: 15, opacity: 0 }}
-          whileInView={{ y: 0, opacity: 1, transition: { duration: 0.6 } }}
+          whileInView={{ y: 0, opacity: 1 }}
           viewport={viewport}
+          transition={{
+            duration: 0.6,
+            stiffness: 100,
+            damping: 0.25,
+            delay: 0.2,
+          }}
           className="border border-sky-400 flex flex-row items-center justify-center text-sky-400 gap-2 text-xs rounded-3xl px-4 py-1 font-bold tracking-wider"
         >
           <FaCamera />
@@ -60,8 +66,14 @@ export default function Camera() {
         </motion.div>
         <motion.h1
           initial={{ y: 30, opacity: 0 }}
-          whileInView={{ y: 0, opacity: 1, transition: { duration: 0.6 } }}
+          whileInView={{ y: 0, opacity: 1 }}
           viewport={viewport}
+          transition={{
+            duration: 0.6,
+            stiffness: 100,
+            damping: 0.25,
+            delay: 0.2,
+          }}
           className="text-6xl font-bold tracking-wider text-center drop-shadow-md "
         >
           Generate Meshes With your{" "}
@@ -69,8 +81,14 @@ export default function Camera() {
         </motion.h1>
         <motion.p
           initial={{ y: 45, opacity: 0 }}
-          whileInView={{ y: 0, opacity: 1, transition: { duration: 0.6 } }}
+          whileInView={{ y: 0, opacity: 1 }}
           viewport={viewport}
+          transition={{
+            duration: 0.6,
+            stiffness: 100,
+            damping: 0.25,
+            delay: 0.2,
+          }}
           className="text-neutral-500 font-bold tracking-wider max-w-4xl text-center"
         >
           Use your camera on your phone, laptop, computer, or any other
@@ -82,8 +100,14 @@ export default function Camera() {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.9 }}
             initial={{ y: 60, opacity: 0 }}
-            whileInView={{ y: 0, opacity: 1, transition: { duration: 0.6 } }}
+            whileInView={{ y: 0, opacity: 1 }}
             viewport={viewport}
+            transition={{
+              duration: 0.6,
+              stiffness: 100,
+              damping: 0.25,
+              delay: 0.2,
+            }}
             className="cursor-pointer mt-2 flex flex-row items-center justify-center gap-2 rounded-xl px-4 py-2 text-lg font-bold tracking-wider bg-gradient-to-r from-blue-500 via-blue-600 to-blue-500"
           >
             <RiAiGenerate />
