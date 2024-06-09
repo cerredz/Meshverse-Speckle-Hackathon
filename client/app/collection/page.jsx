@@ -5,7 +5,7 @@ import { getModelUrls } from "./utils";
 import "./styles.css";
 import { FaSearch } from "react-icons/fa";
 import { TiPlus } from "react-icons/ti";
-import { motion } from "framer-motion";
+import { easeInOut, motion } from "framer-motion";
 import Link from "next/link";
 import { IoMdArrowDropdown } from "react-icons/io";
 import GLBViewer from "../../widgets/GLBViewer";
@@ -37,17 +37,29 @@ export default function Page() {
       {/* CONTENT CONTAINER */}
       <div className="w-full flex flex-row items-center justify-center gap-12">
         {/* SIDEBAR */}
-        <div className="flex-none basis-1/12 flex flex-col min-h-screen items-center justify-between sidebar">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1, transition: { duration: 1, ease: easeInOut } }}
+          className="flex-none basis-1/12 flex flex-col min-h-screen items-center justify-between sidebar"
+        >
           <span className="absolute top-0 w-[4px] h-[196px] rounded-3xl bg-[rgba(255,255,255,.1)]"></span>
           <h1 className="absolute top-1/2 rotate-90 tracking-extra-widest font-light text-2xl whitespace-nowrap font-futuristic">
             2024 Technology
           </h1>
           <span className="absolute bottom-0 w-[4px] h-[100px] rounded-3xl bg-[rgba(255,255,255,.1)]"></span>
-        </div>
-        {/* MODELS */}
+        </motion.div>
+
         <div className="relative flex basis-11/12 h-full flex-col mt-32 pr-[3%] min-h-screen">
           {/* TOP BAR */}
-          <div className="flex flex-row items-center justify-between">
+          <motion.div
+            initial={{ y: 10, opacity: 0 }}
+            animate={{
+              y: 0,
+              opacity: 1,
+              transition: { duration: 0.5, ease: easeInOut, delay: 0.2 },
+            }}
+            className="flex flex-row items-center justify-between"
+          >
             <div className="flex flex-row items-center justify-center gap-4">
               {/* SEARCH */}
               <div className="flex flex-row items-center justify-start gap-1 input-container py-1 ">
@@ -74,11 +86,17 @@ export default function Page() {
                 <IoMdArrowDropdown />
               </div>
             </div>
-          </div>
-
+          </motion.div>
+          {/* MODELS CONTAINER */}
           <div className="flex flex-wrap flex-row items-start justify-start w-full h-full gap-8 mt-12 z-10">
             {models.map((url, index) => (
-              <div
+              <motion.div
+                initial={{ y: 75, opacity: 0 }}
+                animate={{
+                  y: 0,
+                  opacity: 1,
+                  transition: { duration: 0.6, delay: 0.4 * index + 0.5 },
+                }}
                 key={index}
                 className="cursor-pointer overflow-hidden relative w-[250px] h-[250px] flex items-center justify-center rounded-xl border-2 border-[rgba(255,255,255,.1)] bg-gradient-to-b from-[rgba(0,0,0,.1)] to-[rgba(255,255,255,.05)] shadow-md shadow-black"
                 onMouseEnter={() => setIsHoveringImage(url)}
@@ -117,7 +135,7 @@ export default function Page() {
                     </motion.div>
                   )}
                 </AnimatePresence>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>

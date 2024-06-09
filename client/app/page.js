@@ -14,7 +14,7 @@ import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { setUser } from "./Redux/store";
 import { checkUser } from "../utils/home";
-import { useScroll, motion } from "framer-motion";
+import { useScroll, motion, useSpring } from "framer-motion";
 
 export default function Home() {
   const test = useSelector((state) => state.auth.test);
@@ -22,6 +22,11 @@ export default function Home() {
   const dispatch = useDispatch();
   const { data: session } = useSession();
   const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001,
+  });
 
   useEffect(() => {
     if (session && user == null) {
@@ -31,7 +36,7 @@ export default function Home() {
     }
   }, [session]);
   return (
-    <main className="flex min-h-[200vh] flex-col items-start justify-start relative ">
+    <main className="flex min-h-[200vh] flex-col items-start justify-start relative scroll-smooth">
       <Image
         src="/Images/background.png"
         alt="background img"
@@ -40,10 +45,7 @@ export default function Home() {
         priority={true}
         className="hidden md:block"
       />
-      <motion.div
-        style={{ scaleX: scrollYProgress }}
-        className="progress-bar"
-      />
+      <motion.div style={{ scaleX }} className="progress-bar" />
       {/* MAIN CONTENT */}
       <Landing />
       <Cards />

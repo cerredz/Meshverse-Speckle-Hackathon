@@ -9,6 +9,7 @@ import OBJViewer from "../widgets/OBJViewer";
 import Link from "next/link";
 
 export default function Browse() {
+  const viewport = { margin: "-100px", once: true };
   return (
     <section
       id="browse"
@@ -17,72 +18,213 @@ export default function Browse() {
       {/* IMAGE CONTAINER */}
       <div className="flex basis-3/5 items-center justify-center">
         <div className="grid grid-cols-3 gap-4">
-          <div className="w-[200px] h-[200px] flex items-center justify-center card">
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{
+              opacity: 1,
+              y: 0,
+              transition: { duration: 0.4, damping: 100 },
+            }}
+            viewport={viewport}
+            className="w-[200px] h-[200px] flex items-center justify-center card origin-center"
+          >
             <OBJViewer fileUrl={`/images/browse1.obj`} scale={2} height={200} />
-          </div>
-          <div className="w-[200px] h-[200px] flex items-center justify-center card">
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{
+              opacity: 1,
+              y: 0,
+              transition: { duration: 0.4, damping: 100, delay: 0.075 },
+            }}
+            viewport={viewport}
+            className="w-[200px] h-[200px] flex items-center justify-center card"
+          >
             <OBJViewer fileUrl={`/images/browse2.obj`} scale={2} height={200} />
-          </div>
-          <div className="w-[200px] h-[200px] flex items-center justify-center card">
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{
+              opacity: 1,
+              y: 0,
+              transition: { duration: 0.4, damping: 100, delay: 0.15 },
+            }}
+            viewport={viewport}
+            className="w-[200px] h-[200px] flex items-center justify-center card"
+          >
             <OBJViewer fileUrl={`/images/browse3.obj`} scale={2} height={200} />
-          </div>
-          <div className="w-[200px] h-[200px] flex items-center justify-center card">
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{
+              opacity: 1,
+              y: 0,
+              transition: { duration: 0.4, damping: 100, delay: 0.225 },
+            }}
+            viewport={viewport}
+            className="w-[200px] h-[200px] flex items-center justify-center card"
+          >
             <OBJViewer fileUrl={`/images/browse4.obj`} scale={2} height={200} />
-          </div>
-          <div className="w-[200px] h-[200px] flex items-center justify-center card">
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{
+              opacity: 1,
+              y: 0,
+              transition: { duration: 0.4, damping: 100, delay: 0.3 },
+            }}
+            viewport={viewport}
+            className="w-[200px] h-[200px] flex items-center justify-center card"
+          >
             <OBJViewer fileUrl={`/images/browse5.obj`} scale={2} height={200} />
-          </div>
-          <div className="w-[200px] h-[200px] flex items-center justify-center card">
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{
+              opacity: 1,
+              y: 0,
+              transition: { duration: 0.4, damping: 100, delay: 0.375 },
+            }}
+            viewport={{ margin: "-150px" }}
+            className="w-[200px] h-[200px] flex items-center justify-center card"
+          >
             <OBJViewer fileUrl={`/images/browse6.obj`} scale={2} height={200} />
-          </div>
-          <div className="w-[200px] h-[200px] flex items-center justify-center card">
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{
+              opacity: 1,
+              y: 0,
+              transition: { duration: 0.4, damping: 100, delay: 0.45 },
+            }}
+            viewport={viewport}
+            className="w-[200px] h-[200px] flex items-center justify-center card"
+          >
             <OBJViewer fileUrl={`/images/browse7.obj`} scale={2} height={200} />
-          </div>
-          <div className="w-[200px] h-[200px] flex items-center justify-center card">
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{
+              opacity: 1,
+              y: 0,
+              transition: { duration: 0.4, damping: 100, delay: 0.525 },
+            }}
+            viewport={viewport}
+            className="w-[200px] h-[200px] flex items-center justify-center card"
+          >
             <OBJViewer fileUrl={`/images/browse8.obj`} scale={2} height={200} />
-          </div>
-          <div className="w-[200px] h-[200px] flex items-center justify-center card">
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{
+              opacity: 1,
+              y: 0,
+              transition: { duration: 0.4, damping: 100, delay: 0.6 },
+            }}
+            viewport={viewport}
+            className="w-[200px] h-[200px] flex items-center justify-center card"
+          >
             <OBJViewer fileUrl={`/images/browse9.obj`} scale={2} height={200} />
-          </div>
+          </motion.div>
         </div>
       </div>
       {/* TEXT CONTAINER */}
       <div className="flex basis-2/5 flex-col items-start justify-center">
-        <div className="border border-sky-400 flex flex-row items-center justify-center text-sky-400 gap-2 text-xs rounded-3xl px-4 py-1">
+        <motion.div
+          initial={{ x: 75, opacity: 0 }}
+          whileInView={{
+            x: 0,
+            opacity: 1,
+            transition: { duration: 0.4 },
+          }}
+          viewport={viewport}
+          className="border border-sky-400 flex flex-row items-center justify-center text-sky-400 gap-2 text-xs rounded-3xl px-4 py-1"
+        >
           <GrGallery />
           <p>Gallary</p>
-        </div>
-        <h1 className="text-3xl md:text-7xl relative font-bold tracking-wider drop-shadow-md browse-title">
+        </motion.div>
+        <motion.h1
+          initial={{ x: 75, opacity: 0 }}
+          whileInView={{
+            x: 0,
+            opacity: 1,
+            transition: { duration: 0.4, delay: 0.05 },
+          }}
+          viewport={viewport}
+          className="text-3xl md:text-7xl relative font-bold tracking-wider drop-shadow-md browse-title"
+        >
           Browse
-        </h1>
-        <p className="text-neutral-500 tracking-wider font-bold text-md max-w-lg mt-2">
+        </motion.h1>
+        <motion.p
+          initial={{ x: 75, opacity: 0 }}
+          whileInView={{
+            x: 0,
+            opacity: 1,
+            transition: { duration: 0.4, delay: 0.1 },
+          }}
+          viewport={viewport}
+          className="text-neutral-500 tracking-wider font-bold text-md max-w-lg mt-2"
+        >
           Explore the wide array of creations where users transform ordinary 2D
           images into stunning 3D masterpieces. Search, analyze, and download
           your favorite 3D meshes with Speckle.
-        </p>
+        </motion.p>
         {/* BULLETS */}
-        <div className="flex flex-row items-center justify-center gap-2 my-1 ">
+        <motion.div
+          initial={{ x: 75, opacity: 0 }}
+          whileInView={{
+            x: 0,
+            opacity: 1,
+            transition: { duration: 0.4, delay: 0.15 },
+          }}
+          viewport={viewport}
+          className="flex flex-row items-center justify-center gap-2 my-1 "
+        >
           <FaCheckCircle className="fill-fuchsia-500 p-0 m-0 " />
           <p className="font-bold tracking-wider text-sm">
             Access to 3d Data via Speckle
           </p>
-        </div>
-        <div className="flex flex-row items-center justify-center gap-2 my-1 ">
+        </motion.div>
+        <motion.div
+          initial={{ x: 75, opacity: 0 }}
+          whileInView={{
+            x: 0,
+            opacity: 1,
+            transition: { duration: 0.4, delay: 0.2 },
+          }}
+          viewport={viewport}
+          className="flex flex-row items-center justify-center gap-2 my-1 "
+        >
           <FaCheckCircle className="fill-fuchsia-500" />
           <p className="font-bold tracking-wider text-sm">
             Search Functionality
           </p>
-        </div>
-        <div className="flex flex-row items-center justify-center gap-2 my-1">
+        </motion.div>
+        <motion.div
+          initial={{ x: 75, opacity: 0 }}
+          whileInView={{
+            x: 0,
+            opacity: 1,
+            transition: { duration: 0.4, delay: 0.25 },
+          }}
+          className="flex flex-row items-center justify-center gap-2 my-1"
+        >
           <FaCheckCircle className="fill-fuchsia-500" />
           <p className="font-bold tracking-wider text-sm">
             Thoasands of 3D Meshes
           </p>
-        </div>
+        </motion.div>
         <Link href={"/collection"}>
           <motion.div
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.9 }}
+            initial={{ x: 75, opacity: 0 }}
+            whileInView={{
+              x: 0,
+              opacity: 1,
+              transition: { duration: 0.4, delay: 0.3 },
+            }}
+            viewport={viewport}
             className="flex flex-row items-center justify-center gap-2 text-xl px-6 py-3 rounded-xl bg-gradient-to-r from-sky-500 via-blue-500 to-fuchsia-600 font-bold tracking-wider mt-2 cursor-pointer"
           >
             <BsSendArrowUp />

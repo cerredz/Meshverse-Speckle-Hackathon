@@ -1,0 +1,42 @@
+.speckle-title::before {
+  position: absolute;
+  content: "";
+  top: calc(100% - 2px);
+  left: 0;
+  right: 0;
+  height: 2px;
+  border-radius: 10px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgb(56, 149, 236),
+    rgb(129, 17, 194),
+    rgb(56, 149, 236),
+    transparent
+  );
+}
+
+.receive-input::before {
+  position: absolute;
+  content: "";
+  inset: -6px;
+  border-radius: inherit;
+  box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.15);
+  z-index: 0;
+}
+
+.data-btn {
+  box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.5),
+    5px 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+.card {
+  border-radius: 10px;
+
+  box-shadow: inset 0 -20px 40px rgba(255, 255, 255, 0.05);
+  border: double 2px transparent;
+  background-image: linear-gradient(#000000, #0f0f0f),
+    radial-gradient(circle at top left, rgb(35, 197, 237), rgb(219, 33, 236));
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+}
