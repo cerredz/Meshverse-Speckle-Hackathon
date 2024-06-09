@@ -1,15 +1,20 @@
 import Image from "next/image";
 import { cardsData } from "../data";
-import { useScroll, motion, useTransform } from "framer-motion";
+import { useScroll, motion, useTransform, useSpring } from "framer-motion";
 import { useRef } from "react";
 export default function Cards() {
+  // framer motion animations
   const cardsRef = useRef(null);
   const { scrollYProgress } = useScroll({
     target: cardsRef,
-    offset: ["0 1", "1.33 1"],
+    offset: ["100px end", "end end"],
   });
+  const rawScaleProgress = useTransform(scrollYProgress, [0, 1], [0.4, 1]);
+  const rawOpacity = useTransform(scrollYProgress, [0, 1], [0, 1]);
+  const springConfig = { damping: 25, stiffness: 100, delay: 0.2 };
+  const scaleProgress = useSpring(rawScaleProgress, springConfig);
+  const opacity = useSpring(rawOpacity, springConfig);
 
-  const scaleProgress = useTransform(scrollYProgress, [0, 1], [0.5, 1]);
   return (
     <section
       id="cards"
@@ -19,10 +24,7 @@ export default function Cards() {
       {cardsData.map((card, index) => (
         <motion.div
           key={index}
-          style={{
-            scale: scaleProgress,
-            opacity: scrollYProgress,
-          }}
+          style={{ scale: scaleProgress, opacity }}
           className={`flex flex-col items-center justify-between bg-[rgba(255,255,255,.05)] rounded-sm p-8 max-w-md w-[400px] h-[250px] ${
             index == 0 && "mt-[-75px] mb-[75px] lg:mt-0 lg:mb-0"
           }`}

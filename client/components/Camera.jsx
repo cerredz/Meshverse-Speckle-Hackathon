@@ -31,12 +31,12 @@ export default function Camera() {
   ];
 
   const viewport = { once: true, margin: "-200px" };
+  // framer motion animations
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start end", "end end"],
   });
-
   const rawOpacity = useTransform(scrollYProgress, [0, 1], [0, 1]);
   const rawScale = useTransform(scrollYProgress, [0, 1], [0.2, 1]);
   const springConfig = { damping: 25, stiffness: 100, delay: 0.1 };
