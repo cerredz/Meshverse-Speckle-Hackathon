@@ -31,11 +31,19 @@ export default function Page() {
         quality={100}
         priority={true}
       />
-      <div className="flex flex-row items-start justify-start gap-8 pt-32">
+      <div className="flex flex-row items-start justify-start gap-8 pt-32 flex-wrap">
         {user !== null ? (
           user.files.map((url, index) => (
-            <div
+            <motion.div
               key={index}
+              initial={{ y: 75, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{
+                duration: 0.6,
+                stiffness: 200,
+                damping: 20,
+                delay: 0.35 + index * 0.15,
+              }}
               className="cursor-pointer overflow-hidden relative w-[250px] h-[250px] flex items-center justify-center rounded-xl border-2 border-[rgba(255,255,255,.1)] bg-gradient-to-b from-[rgba(0,0,0,.1)] to-[rgba(255,255,255,.05)] shadow-md shadow-black"
               onMouseEnter={() => setIsHoveringImage(url)}
               onMouseLeave={() => setIsHoveringImage(null)}
@@ -73,7 +81,7 @@ export default function Page() {
                   </motion.div>
                 )}
               </AnimatePresence>
-            </div>
+            </motion.div>
           ))
         ) : (
           <></>

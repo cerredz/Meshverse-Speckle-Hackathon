@@ -39,7 +39,12 @@ export default function Page() {
         {/* SIDEBAR */}
         <motion.div
           initial={{ opacity: 0 }}
-          animate={{ opacity: 1, transition: { duration: 1, ease: easeInOut } }}
+          animate={{ opacity: 1 }}
+          transition={{
+            duration: 1,
+            stiffness: 100,
+            damping: 25,
+          }}
           className="flex-none basis-1/12 flex flex-col min-h-screen items-center justify-between sidebar"
         >
           <span className="absolute top-0 w-[4px] h-[196px] rounded-3xl bg-[rgba(255,255,255,.1)]"></span>
@@ -56,7 +61,12 @@ export default function Page() {
             animate={{
               y: 0,
               opacity: 1,
-              transition: { duration: 0.5, ease: easeInOut, delay: 0.2 },
+            }}
+            transition={{
+              duration: 1,
+              stiffness: 100,
+              damping: 25,
+              delay: 0.2,
             }}
             className="flex flex-row items-center justify-between"
           >
@@ -95,7 +105,12 @@ export default function Page() {
                 animate={{
                   y: 0,
                   opacity: 1,
-                  transition: { duration: 0.6, delay: 0.4 * index + 0.5 },
+                }}
+                transition={{
+                  duration: 0.3,
+                  stiffness: 100,
+                  damping: 25,
+                  delay: 0.2 * index + 0.3,
                 }}
                 key={index}
                 className="cursor-pointer overflow-hidden relative w-[250px] h-[250px] flex items-center justify-center rounded-xl border-2 border-[rgba(255,255,255,.1)] bg-gradient-to-b from-[rgba(0,0,0,.1)] to-[rgba(255,255,255,.05)] shadow-md shadow-black"
