@@ -207,6 +207,7 @@ export default function Browse() {
             opacity: 1,
             transition: { duration: 0.4, delay: 0.25 },
           }}
+          viewport={viewport}
           className="flex flex-row items-center justify-center gap-2 my-1"
         >
           <FaCheckCircle className="fill-fuchsia-500" />
