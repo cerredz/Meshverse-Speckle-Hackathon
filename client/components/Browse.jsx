@@ -9,7 +9,7 @@ import OBJViewer from "../widgets/OBJViewer";
 import Link from "next/link";
 
 export default function Browse() {
-  const viewport = { margin: "-100px", once: true };
+  const viewport = { margin: "-150px" };
   return (
     <section
       id="browse"

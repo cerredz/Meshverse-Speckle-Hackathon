@@ -30,7 +30,7 @@ export default function Camera() {
     },
   ];
 
-  const viewport = { once: true, margin: "-200px" };
+  const viewport = { margin: "-150px" };
   // framer motion animations
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({

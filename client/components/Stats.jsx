@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 export default function Stats() {
   const [models, setModels] = useState(0);
   const [artists, setArtists] = useState(0);
-  const viewport = { once: true, margin: "-200px" };
+  const viewport = { margin: "-200px" };
 
   useEffect(() => {
     const fetchData = async () => {
