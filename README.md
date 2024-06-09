@@ -13,6 +13,9 @@ Our project allows users to either to upload a file from their computer or use t
 - users can add their generated 3d meshes directly into Speckle's Client
 - users can download both the meshes that they created, and receive Speckle's API data on the meshes they created
 
+## Extended Video Demo 🎥
+https://www.youtube.com/watch?v=UVKYNRTxjVo
+
 ## Technologies
 ![image (5)](https://github.com/cerredz/Meshverse-Speckle-Hackathon/assets/110927971/e6cf03b6-b132-45f3-91e7-381d5a0d0278)
 
