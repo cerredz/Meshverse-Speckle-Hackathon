@@ -13,11 +13,38 @@ Our project allows users to either to upload a file from their computer or use t
 - users can add their generated 3d meshes directly into Speckle's Client
 - users can download both the meshes that they created, and receive Speckle's API data on the meshes they created
 
+## Technologies
+![image (5)](https://github.com/cerredz/Meshverse-Speckle-Hackathon/assets/110927971/e6cf03b6-b132-45f3-91e7-381d5a0d0278)
+
 ## Setup 
 1) Clone the Repository
 ```
 git clone https://github.com/cerredz/Meshverse-Speckle-Hackathon
 ```
+2) Create an image folder in the Flask backend
+```
+cd .\server\
+mkdir images
+```
+3) Install all the neccessary Python dependencies (still in the server directory)
+```
+pip install -r requirements.txt
+```
+4) Create a .env file in the Server directory, and add your MongoDB connection string to the variable MONGODB_CONNECTION_STRING
+5) Traverse back to the root directory, and install all of the npm packages on the frontend
+```
+cd .\client\
+npm i
+```
+6) go to https://console.cloud.google.com/ and create an 0-Auth 2.0 client id under api and services. then create a .env.local file in the client directory and add the client id and client secret to the varibales GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET. also, add a 64-lengthed random string to the SECRET variable, and your port you are running the frontend on in the NEXTAUTH_URL variable
+7) Open a terminal window, and in the client directory run the following command
+```
+npm run dev
+```
+8) In another terminal tab, go to the server directory and run the following command
+```
+python server.py
+```
+9) Give it a few seconds and go to the port you are running your client on and have fun
 
-## Technologies
-![image (5)](https://github.com/cerredz/Meshverse-Speckle-Hackathon/assets/110927971/e6cf03b6-b132-45f3-91e7-381d5a0d0278)
+
